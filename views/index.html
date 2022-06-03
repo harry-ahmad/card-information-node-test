@@ -1,0 +1,88 @@
+<html lang="en">
+  <head>
+    <title>Node JS Express Form Submission Example - ItSolutionStuff.com</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Card Validation</h1>
+      <form id="cardForm" action="/addDepartment" method="post">
+        <div class="form-group">
+            <label for="card_holder_name">Card Holder Name</label>
+            <input
+                type="text" 
+                class="form-control"
+                id="card_holder_name"
+                placeholder="Card holder name"
+                name="card_holder_name"
+                required>
+        </div>
+        <div class="form-group">
+            <label for="card_no">Card No</label>
+            <input 
+                type="number"
+                class="form-control"
+                id="card_no"
+                pattern="/^-?\d+\.?\d*$/"
+                onKeyPress="if(this.value.length==16) return false;"
+                placeholder="Card No"
+                name="card_no"
+                required>
+        </div>
+        <div class="form-group">
+            <label for="cvv">CVV</label>
+            <input 
+                type="number"
+                class="form-control"
+                id="cvv"
+                pattern="/^-?\d+\.?\d*$/"
+                onKeyPress="if(this.value.length==3) return false;"
+                placeholder="cvv"
+                name="cvv"
+                required>
+        </div>
+        <div class="form-group">
+            <label for="expiry_date">Expiry Date</label>
+            <input 
+                type="number"
+                class="form-control"
+                id="expiry_date"
+                pattern="/^-?\d+\.?\d*$/"
+                onKeyPress="if(this.value.length==5) return false;"
+                placeholder="MM/YY"
+                name="expiry_date"
+                required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+  </body>
+</html>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+    var frm = $('#cardForm');
+
+    frm.submit(function (e) {
+
+        e.preventDefault();
+
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            dataType: "json",
+            success: function (data) {
+                alert(data.message);
+                frm[0].reset();
+            },
+            error: function (error) {
+                alert(error.responseJSON.message);
+            },
+        });
+    });
+
+</script>
